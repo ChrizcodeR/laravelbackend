@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\MoonShine\Resources\EmployesResource;
+use App\MoonShine\Resources\RegistersResource;
+use App\MoonShine\Resources\StartResource;
 use MoonShine\Providers\MoonShineApplicationServiceProvider;
 use MoonShine\MoonShine;
 use MoonShine\Menu\MenuGroup;
@@ -41,19 +43,17 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
     {
         return [
 
-            MenuItem::make('Empleados', new EmployesResource)
+            MenuItem::make('Inicio', new StartResource(), 'heroicons.outline.presentation-chart-bar'),
+
+            MenuItem::make('Registros', new RegistersResource(), 'heroicons.outline.inbox-arrow-down'),
+
+            MenuItem::make('Empleados', new EmployesResource(), 'heroicons.outline.user-plus')
                ->badge(fn() => 'New'),
 
-            MenuGroup::make(static fn() => __('moonshine::ui.resource.system'), [
-               MenuItem::make(
-                   static fn() => __('moonshine::ui.resource.admins_title'),
-                   new MoonShineUserResource()
-               ),
-               MenuItem::make(
-                   static fn() => __('moonshine::ui.resource.role_title'),
-                   new MoonShineUserRoleResource()
-               ),
-            ]),
+               MenuGroup::make('System',  [
+                MenuItem::make('Admins', new MoonShineUserResource(), 'heroicons.outline.users'),
+                MenuItem::make('Roles', new MoonShineUserRoleResource(), 'heroicons.hashtag'),
+            ])
         ];
     }
 
